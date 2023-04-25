@@ -10,7 +10,7 @@ load_dotenv(find_dotenv())
 id = os.getenv('GPT_API_KEY')
 password = os.getenv('PASSWORD')
 bot = Bot(token=os.getenv('TOKEN_BOT'))
-CHAT_ID = os.getenv('CHAT_ID')
+#CHAT_ID = os.getenv('CHAT_ID')
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
