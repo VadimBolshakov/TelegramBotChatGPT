@@ -19,12 +19,13 @@ LOGGING_CONFIG = {
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'short_formatter',
-            'level': 'INFO',
+            'level': 'ERROR',
             'stream': 'ext://sys.stdout'
         },
         'file': {
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'default_formatter',
+            'level': 'INFO',
             'filename': 'logconfig.log',
             'maxBytes': 32768,
             'backupCount': 5
