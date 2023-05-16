@@ -1,7 +1,7 @@
 # @Vadim_AI_Bot
 
-from create import dp, bot
-from logsetting import logger
+from create import dp
+from admin.logsetting import logger
 from models import start, general
 from aiogram.utils import executor
 from databases import database

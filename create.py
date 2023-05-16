@@ -7,10 +7,13 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 load_dotenv(find_dotenv())
 
-id = os.getenv('GPT_API_KEY')
+SENDER_EMAIL = os.getenv('SENDER_EMAIL')
+PASSWORD_EMAIL = os.getenv('PASSWORD_EMAIL')
+RECIPIENT_EMAIL = os.getenv('RECIPIENT_EMAIL')
+GPT_API_KEY = os.getenv('GPT_API_KEY')
+CHAT_ID = os.getenv('CHAT_ID')
 password = os.getenv('PASSWORD')
 bot = Bot(token=os.getenv('TOKEN_BOT'))
-#CHAT_ID = os.getenv('CHAT_ID')
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 

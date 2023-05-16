@@ -1,5 +1,5 @@
-import logging.config
 import logging
+import logging.config
 
 
 LOGGING_CONFIG = {
@@ -35,8 +35,10 @@ LOGGING_CONFIG = {
             'mailhost': 'localhost',
             'fromaddr': 'my_app@domain.tld',
             'toaddrs': '- support_team@domain.tld',
-            'subject': 'Houston, we have a problem'
+            'subject': 'Houston, we have a problem',
+            'level': 'ERROR',
         },
+
     },
     'loggers': {
         'my_logger': {
