@@ -9,9 +9,7 @@ from databases import database
 
 async def on_startup(_):
     logger.info('Bot in online')
-    print('Bot in online')
     database.start_db()
-    print('Db created')
     logger.info('DB created')
 
 
@@ -20,7 +18,7 @@ sendadmin.register_handlers_sendadmin(dp)
 general.register_handlers_general(dp)
 
 
-async def on_shutdown(dp):
+async def on_shutdown():
     await dp.storage.close()
     await dp.storage.wait_closed()
 

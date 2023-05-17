@@ -25,8 +25,8 @@ def send_email(subject='TelegramBot',
             part = MIMEBase('application', 'octet-stream')
             with open(file, 'rb') as file:
                 part.set_payload(file.read())
-            encoders.encode_base64(part)
-            part.add_header('Content-Disposition', 'attachment; filename={}'.format('logconfig.log'))
+                encoders.encode_base64(part)
+                part.add_header('Content-Disposition', 'attachment; filename={}'.format('logconfig.log'))
             msg.attach(part)
         except FileNotFoundError as e:
             logger.exception(f'Error attach file: {str(e)}')

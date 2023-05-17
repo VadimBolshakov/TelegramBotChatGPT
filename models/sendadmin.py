@@ -8,6 +8,8 @@ from dotenv import load_dotenv, find_dotenv
 from admin import smtp
 from databases import database
 from datetime import datetime
+from create import ADMIN_ID
+from admin import checking
 
 load_dotenv(find_dotenv())
 LOG_FILE = os.getenv('LOG_FILE')
@@ -17,7 +19,8 @@ class AdminFSM(StatesGroup):
     broadcast = State()
 
 
-# @dp.message_handler(commands=['admin'])
+# @dp.message_handler(user_id=ADMIN_ID, commands=['admin'])
+@checking.check_admin
 async def admin(message: types.Message):
     """Send message to admin about using commands."""
     await message.answer('Admin panel suggest using next commands:\n'
@@ -29,6 +32,7 @@ async def admin(message: types.Message):
 
 
 # @dp.message_handler(commands=['getlog'])
+@checking.check_admin
 async def send_log(message: types.Message):
     """Send log file to admin in telegram."""
     try:
@@ -40,15 +44,16 @@ async def send_log(message: types.Message):
 
 
 # @dp.message_handler(commands=['getemail'])
+@checking.check_admin
 async def send_email_lod(message: types.Message):
     """Send log file to admin in email."""
-    subject = f'Log file by {datetime.now()}'[:19]
-    # subject = f'Log file by {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+    subject = f'Log file by {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
     smtp.send_email(subject=subject, file=LOG_FILE, attach_file=True)
     await message.answer('Log file send to email')
 
 
 # @dp.message_handler(commands=['getusers'])
+@checking.check_admin
 async def send_users(message: types.Message):
     """Send id and users of this chat to admin."""
     users = database.get_all_users()
@@ -57,6 +62,7 @@ async def send_users(message: types.Message):
 
 
 # @dp.message_handler(commands=['getrequests'])
+@checking.check_admin
 async def send_requests(message: types.Message):
     """Send number of requests to admin."""
     requests = database.get_requests_count()
@@ -64,6 +70,7 @@ async def send_requests(message: types.Message):
 
 
 # @dp.message_handler(commands=['sendall'], state=None)
+@checking.check_admin
 async def send_all(message: types.Message):
     """Send message to all users."""
     await message.answer('Enter message (enter "/cancel" to cancel)')
@@ -90,12 +97,12 @@ async def send_all_message(message: types.Message, state: FSMContext):
 
 
 def register_handlers_sendadmin(dp: Dispatcher):
-    dp.register_message_handler(admin, commands=['admin'])
-    dp.register_message_handler(send_log, commands=['getlog'])
-    dp.register_message_handler(send_email_lod, commands=['getemail'])
+    dp.register_message_handler(admin, commands=['admin'], user_id=ADMIN_ID)
+    dp.register_message_handler(send_log, commands=['getlog'], user_id=ADMIN_ID)
+    dp.register_message_handler(send_email_lod, commands=['getemail'], user_id=ADMIN_ID)
     dp.register_message_handler(send_users, commands=['getusers'])
-    dp.register_message_handler(send_requests, commands=['getrequests'])
-    dp.register_message_handler(send_all, commands=['sendall'], state=None)
+    dp.register_message_handler(send_requests, commands=['getrequests'], user_id=ADMIN_ID)
+    dp.register_message_handler(send_all, commands=['sendall'], state=None, user_id=ADMIN_ID)
     dp.register_message_handler(send_all_message, state=AdminFSM.broadcast)
 
 
