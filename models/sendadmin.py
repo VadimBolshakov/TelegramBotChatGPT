@@ -97,12 +97,12 @@ async def send_all_message(message: types.Message, state: FSMContext):
 
 
 def register_handlers_sendadmin(dp: Dispatcher):
-    dp.register_message_handler(admin, commands=['admin'], user_id=ADMIN_ID)
-    dp.register_message_handler(send_log, commands=['getlog'], user_id=ADMIN_ID)
-    dp.register_message_handler(send_email_lod, commands=['getemail'], user_id=ADMIN_ID)
+    dp.register_message_handler(admin, commands=['admin'])
+    dp.register_message_handler(send_log, commands=['getlog'])
+    dp.register_message_handler(send_email_lod, commands=['getemail'])
     dp.register_message_handler(send_users, commands=['getusers'])
-    dp.register_message_handler(send_requests, commands=['getrequests'], user_id=ADMIN_ID)
-    dp.register_message_handler(send_all, commands=['sendall'], state=None, user_id=ADMIN_ID)
+    dp.register_message_handler(send_requests, commands=['getrequests'])
+    dp.register_message_handler(send_all, commands=['sendall'], state=None)
     dp.register_message_handler(send_all_message, state=AdminFSM.broadcast)
 
 
