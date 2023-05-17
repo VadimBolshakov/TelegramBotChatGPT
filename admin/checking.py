@@ -15,9 +15,9 @@ def check_foul_language(fn):
             await message.reply('Это не хорошо, говорить такие слова')
             # await message.reply('foul language is prohibited')
             if message: await message.delete()
-            logger.warning(f"Fail the foul language check user {user_first_name} (id:{user_id})")
+            logger.warning(f'Fail the foul language check user {user_first_name} (id:{user_id})')
             return
-        logger.info(f"Passed the foul language check user {user_first_name} (id:{user_id})")
+        logger.info(f'Passed the foul language check user {user_first_name} (id:{user_id})')
         await fn(message)
 
     return wrapper

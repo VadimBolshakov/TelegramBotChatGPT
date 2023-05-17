@@ -1,5 +1,10 @@
-import logging
 import logging.config
+import os
+from dotenv import load_dotenv, find_dotenv
+
+
+load_dotenv(find_dotenv())
+LOG_FILE = os.getenv('LOG_FILE')
 
 
 LOGGING_CONFIG = {
@@ -26,7 +31,7 @@ LOGGING_CONFIG = {
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'default_formatter',
             'level': 'INFO',
-            'filename': 'logconfig.log',
+            'filename': LOG_FILE,
             'maxBytes': 32768,
             'backupCount': 5
         },
@@ -57,13 +62,13 @@ if __name__ == '__main__':
     logger.debug('debug log')
     logger.info('logger info')
     logger.warning('warning')
-    logger.error("ZeroDivisionError", exc_info=True)
+    logger.error('ZeroDivisionError', exc_info=True)
     logger.exception('exception')
     logger.critical('critical')
 
     logging.debug('debug log')
     logging.info('logger info')
     logging.warning('warning')
-    logging.error("ZeroDivisionError", exc_info=True)
+    logging.error('ZeroDivisionError', exc_info=True)
     logging.exception('exception')
     logging.critical('critical')

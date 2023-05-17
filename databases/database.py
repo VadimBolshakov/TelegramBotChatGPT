@@ -3,8 +3,8 @@ import sqlite3
 import datetime
 
 
-# Create users and requests tables
 def start_db() -> None:
+    """Create users and requests tables."""
     with sqlite3.connect('database.db', detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES) as db:
         cursor = db.cursor()
         query = """ CREATE TABLE IF NOT EXISTS users (
@@ -29,13 +29,9 @@ def start_db() -> None:
         db.commit()
 
 
-# Add the new user to the users table
-def add_db_user(user_id: int, first_name: str, full_name: str, user_name: str,
-                date_registration: datetime) -> None:
-    """
-
-    :rtype: object
-    """
+def add_user(user_id: int, first_name: str, full_name: str, user_name: str,
+             date_registration: datetime) -> None:
+    """Add the new user to the users table."""
     with sqlite3.connect('database.db', detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES) as db:
         cursor = db.cursor()
         user = (user_id, first_name, full_name, user_name, date_registration)
@@ -45,8 +41,8 @@ def add_db_user(user_id: int, first_name: str, full_name: str, user_name: str,
         db.commit()
 
 
-# Get the user from the users' table by his id
-def get_db_user(user_id: int) -> tuple:
+def get_user(user_id: int) -> tuple:
+    """Get the user from the users' table by id."""
     with sqlite3.connect('database.db', detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES) as db:
         cursor = db.cursor()
         query = " SELECT * FROM users WHERE user_id=? "
@@ -54,8 +50,26 @@ def get_db_user(user_id: int) -> tuple:
         return cursor.fetchone()
 
 
-# Add the new request to the requests table
-def add_db_request(user_id: int, date: datetime, num_tokens: int, status: int) -> None:
+def get_all_users() -> list:
+    """Get all users from the users' table."""
+    with sqlite3.connect('database.db', detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES) as db:
+        cursor = db.cursor()
+        query = " SELECT * FROM users "
+        cursor.execute(query)
+        return cursor.fetchall()
+
+
+def get_requests_count() -> int:
+    """Get the total number of requests from the requests' table."""
+    with sqlite3.connect('database.db', detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES) as db:
+        cursor = db.cursor()
+        query = " SELECT COUNT(*) FROM requests "
+        cursor.execute(query)
+        return cursor.fetchone()[0]
+
+
+def add_request(user_id: int, date: datetime, num_tokens: int, status: int) -> None:
+    """Add the new request to the requests' table."""
     with sqlite3.connect('database.db', detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES) as db:
         cursor = db.cursor()
         request = (user_id, date, num_tokens, status)

@@ -13,8 +13,8 @@ class RegisterFSM(StatesGroup):
 
 # @dp.message_handler(commands=['start', 'help'], state=None)
 async def command_start_help(message: types.Message):
-    if database.get_db_user(message.from_user.id) is None:
-        await message.answer("Enter password")
+    if database.get_user(message.from_user.id) is None:
+        await message.answer('Enter password')
         await RegisterFSM.password.set()
     else:
         await message.answer(f'Здравствуйте {message.from_user.full_name}.\n'
@@ -28,18 +28,19 @@ async def input_password(message: types.Message, state: FSMContext):
         data['password'] = message.text.split()
     if data['password'][0] == password:
 
-        database.add_db_user(user_id=message.from_user.id,
-                             first_name=message.from_user.first_name,
-                             full_name=message.from_user.full_name,
-                             user_name=message.from_user.username,
-                             date_registration=message.date)
+        database.add_user(user_id=message.from_user.id,
+                          first_name=message.from_user.first_name,
+                          full_name=message.from_user.full_name,
+                          user_name=message.from_user.username,
+                          date_registration=message.date)
         await bot.send_message(message.chat.id, f'Здравствуйте {message.from_user.full_name}.\n'
                                                 f'Этот бот отвечает на вопросы с помощью GPT-3.\n'
                                                 f'Задайте свой вопрос ниже\U0001F604')
         await state.finish()
     else:
         await message.answer('The password is incorrect')
-        await message.answer("Enter password")
+        await message.answer('Enter password')
+        await state.finish()
 
 
 def register_handlers_start(dp: Dispatcher):
